@@ -2,10 +2,10 @@ require 'spec_helper'
 
 module Pronto
   describe Rubocop do
-    let(:rubocop) { Rubocop.new }
+    let(:rubocop) { Rubocop.new(patches, nil) }
 
     describe '#run' do
-      subject { rubocop.run(patches, nil) }
+      subject { rubocop.run }
 
       context 'patches are nil' do
         let(:patches) { nil }
@@ -20,6 +20,7 @@ module Pronto
 
     describe '#level' do
       subject { rubocop.level(severity) }
+      let(:patches) { [] }
 
       ::Rubocop::Cop::Offence::SEVERITIES.each do |severity|
         let(:severity) { severity }

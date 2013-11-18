@@ -3,17 +3,16 @@ require 'rubocop'
 
 module Pronto
   class Rubocop < Runner
-    def initialize
+    def initialize(patches, _)
       @cli = ::Rubocop::CLI.new
+      super
     end
 
-    def run(patches, _)
+    def run
       return [] unless patches
 
-      patches.select { |patch| patch.additions > 0 }
-             .select { |patch| ruby_file?(patch.new_file_full_path) }
-             .map { |patch| inspect(patch) }
-             .flatten.compact
+      ruby_patches.map { |patch| inspect(patch) }
+                  .flatten.compact
     end
 
     def inspect(patch)
