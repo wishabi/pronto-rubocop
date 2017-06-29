@@ -60,12 +60,16 @@ module Pronto
     end
 
     def level(severity)
-      case severity
-      when :refactor, :convention
-        :warning
-      when :warning, :error, :fatal
-        severity
-      end
+      default_severities = {
+        refactor: :warning,
+        convention: :warning,
+        warning: :warning,
+        error: :error,
+        fatal: :fatal
+      }
+      severities = Pronto::ConfigFile.new.to_h.dig('rubocop', 'severities') || {}
+      severities = Hash[severities.map { |k, v| [k.to_sym, v.to_sym] }]
+      default_severities.merge(severities)[severity]
     end
   end
 end
