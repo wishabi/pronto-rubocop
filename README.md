@@ -17,3 +17,4 @@ You can also provide additional configuration via `.pronto.yml`:
     rubocop:
       # Run Rails cops
       rails: true
+
