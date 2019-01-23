@@ -71,7 +71,7 @@ module Pronto
         error: :error,
         fatal: :fatal
       }
-      severities = Pronto::ConfigFile.new.to_h.dig('rubocop', 'severities') || {}
+      severities = Pronto::ConfigFile.new.to_h.fetch('rubocop'){ {} }.fetch('severities'){ {} }
       severities = Hash[severities.map { |k, v| [k.to_sym, v.to_sym] }]
       default_severities.merge(severities)[severity]
     end
